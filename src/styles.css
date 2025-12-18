@@ -1,121 +1,160 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  --font-main: Inter, Avenir, Helvetica, Arial, sans-serif;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --primary-color: #6200ee;
+  --primary-variant-color: #3700b3;
+  --text-color: #e1e1e1;
+  --subtle-text-color: #888;
+  --border-color: #2c2c2c;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
   font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: #f6f6f6;
-  background-color: #1a1a1a;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--background-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 2rem;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
   gap: 2rem;
 }
 
 #picker {
+  background-color: var(--surface-color);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 24px var(--shadow-color);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 320px;
 }
 
 #color-preview {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  border: 2px solid #444;
-  background-color: #888;
-  transition: background-color 0.3s;
+  border: 4px solid var(--surface-color);
+  outline: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: background-color 0.3s ease;
 }
 
 .color-details {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
 }
 
 #color-code-display {
-  padding: 0.6em 1.2em;
+  flex-grow: 1;
+  padding: 0.75em 1em;
   font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #2f2f2f;
-  border: 1px solid #444;
-  color: #f6f6f6;
+  font-family: 'Fira Code', monospace;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
   border-radius: 8px;
   text-align: center;
+  min-width: 0; /* Prevents flexbox overflow */
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.75em 1.5em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  color: #f6f6f6;
-  background-color: #3f51b5;
-  transition: background-color 0.25s, border-color 0.25s;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
   outline: none;
 }
 
-button:hover {
-  background-color: #303f9f;
+button:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
 }
 
 button:active {
-  background-color: #283593;
+    transform: scale(0.98);
+}
+
+#copy-button {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+#copy-button:hover {
+  background-color: var(--primary-color);
+  color: var(--surface-color);
 }
 
 #pick-color-btn {
   width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+#pick-color-btn:hover {
+  background-color: var(--primary-variant-color);
 }
 
 #palette {
-  width: 80%;
+  width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
+#palette h2 {
+    color: var(--subtle-text-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
 #palette-colors {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
   gap: 0.75rem;
   margin-top: 1rem;
+  padding: 1rem;
+  background: var(--surface-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
-.palette-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+.palette-color {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.palette-item:hover {
-  background-color: #2f2f2f;
-}
-
-.palette-color-swatch {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  border: 1px solid #555;
-}
-
-.palette-color-code {
-  font-size: 0.8em;
-  color: #aaa;
+.palette-color:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--shadow-color);
 }

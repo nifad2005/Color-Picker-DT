@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body, html {
+      background-color: transparent;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import { invoke } from "@tauri-apps/api/core";
+    import { getCurrent } from "@tauri-apps/api/window";
+
+    document.addEventListener("click", async () => {
+      try {
+        await invoke("capture_color_and_close");
+      } finally {
+        // We ask the backend to close us, but as a fallback:
+        const win = getCurrent();
+        win.close();
+      }
+    });
+    document.addEventListener("contextmenu", async (e) => {
+        e.preventDefault(); // prevent context menu
+        try {
+            await invoke("cancel_picker");
+        } finally {
+            const win = getCurrent();
+            win.close();
+        }
+        return false;
+    });
+  </script>
+</body>
+</html>
